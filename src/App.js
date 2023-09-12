@@ -82,7 +82,7 @@ function App() {
        
           {
             messages.map(item=>(
-              <Message key={item.id} user={item.uid===user.uid?"me":"other"} text={item.text} uri={item.uri} />
+              <Message   key={item.id} user={item.uid===user.uid?"me":"other"} text={item.text} uri={item.uri} />
             ))
           }
 
