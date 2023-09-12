@@ -1,6 +1,6 @@
 import { Box, Button, Container, HStack, Input, VStack } from "@chakra-ui/react";
 import Message from "./Components/Message";
-import {getAuth, onAuthStateChanged ,GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import {getAuth, onAuthStateChanged ,GoogleAuthProvider, signInWithPopup, signOut} from "firebase/auth"
 import {app} from './FireBase'
 import { useEffect, useState } from "react";
 
@@ -11,6 +11,8 @@ const loginHandler = () =>{
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
 }
+
+const logoutHandler = () => signOut(auth)
 
 
 function App() {
@@ -30,7 +32,7 @@ function App() {
         user?
         (<Container bg={"white"} h={"100vh"}>
         <VStack h={"full"} paddingY={"4"} >
-          <Button colorScheme={"red"}>Logout</Button>
+          <Button onClick={logoutHandler} colorScheme={"red"}>Logout</Button>
 
 
         <VStack h={"full"} w={"full"} overflowY="auto" > 
