@@ -1,18 +1,43 @@
 import { Box, Button, Container, HStack, Input, VStack } from "@chakra-ui/react";
 import Message from "./Components/Message";
+import {getAuth, onAuthStateChanged ,GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import {app} from './FireBase'
+import { useEffect, useState } from "react";
+
+
+const auth =getAuth(app)
+
+const loginHandler = () =>{
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+}
+
 
 function App() {
+
+  const [user, setUser] = useState(false);
+
+  useEffect(()=>{
+    onAuthStateChanged(auth,(data)=>{
+      setUser(data)
+    })
+  },[])
+
+
   return (
     <Box bg={"red.100"}>
-      <Container bg={"white"} h={"100vh"}>
+      {
+        user?
+        (<Container bg={"white"} h={"100vh"}>
         <VStack h={"full"} paddingY={"4"} >
           <Button colorScheme={"red"}>Logout</Button>
 
 
-        <VStack h={"full"} w={"full"} > 
-        <Message text={"O Kida Fer?"} />
-        <Message user="me" text={"Bas Vadiya Tu suna"} />
-        <Message text={"Aapa v kaintt e aa fer"} />
+        <VStack h={"full"} w={"full"} overflowY="auto" > 
+       
+        <Message text={"Sample Text"} />
+        <Message text={"Sample Text"} />
+
          </VStack>
 
 
@@ -25,7 +50,11 @@ function App() {
           </form>
        
         </VStack>
-      </Container>
+      </Container>):
+      <VStack bg={"palegreen"} justifyContent={"center"} h={"100vh"} >
+        <Button onClick={loginHandler} >Sign In with Google</Button>
+      </VStack>
+      }
     </Box>
   );
 }
